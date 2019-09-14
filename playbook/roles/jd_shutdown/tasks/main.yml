@@ -21,7 +21,6 @@
   args:
     executable: python3
   register: active_dls
-  ignore_errors: yes
 
 - name: Kill JDownloader container when there are no downloads left
   become: yes

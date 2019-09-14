@@ -3,4 +3,3 @@ homelab:
     jdownloader:
       hosts:
         ben-nuc7:
-          ansible_ssh_user: ben

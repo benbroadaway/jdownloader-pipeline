@@ -3,6 +3,7 @@
 jdownloader_uid: "{{ ansible_user_uid }}"
 jdownloader_gid: "{{ ansible_user_gid }}"
 
+# docker vars
 install_version: "v1.5.2"
 container_name: "jdownloader-test"
 

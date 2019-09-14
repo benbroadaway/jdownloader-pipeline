@@ -1,6 +1,15 @@
 import myjdapi
 import sys
 
+
+def is_finished(link):
+  if "finished" in link.keys():
+    return link["finished"]
+  else:
+    return False
+
+
+
 if len(sys.argv) < 4:
   print("Invalid arguments. Two parameters are required: my_jd_email my_jd_password device_name")
   exit(1)
@@ -47,11 +56,6 @@ else:
 print("Finished with unexpected error.")
 exit(1)
 
-def is_finished(link):
-  if "finished" in link.keys():
-    return link["finished"]
-  else:
-    return False
 
 
 # print( urllib.parse.quote(email))
