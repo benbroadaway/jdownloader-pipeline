@@ -1,0 +1,50 @@
+---
+
+- name: Download the Jdownloader docker image
+  become: yes
+  docker_image:
+    name: "jlesage/jdownloader-2:{{ install_version }}"
+    force: true
+
+- name: Remove existing container
+  become: yes
+  docker_container:
+    state: absent
+    name: "{{ container_name }}"
+
+- name: Create required directories
+  file:
+    path: "{{ base_data_dir }}/{{ item }}"
+    state: directory
+    mode: 0700
+  loop:
+    - "config"
+    - "downloads"
+
+- name: Create jdownloader network
+  docker_network:
+    name: jdownloader
+
+- name: Create the JDownloader container
+  become: yes
+  docker_container:
+    image: "jlesage/jdownloader-2:{{ install_version }}"
+    name: "{{ container_name }}"
+    env:
+      USER_ID: "{{ jdownloader_uid | default(1000) }}"
+      GROUP_ID: "{{ jdownloader_gid | default(1000) }}"
+    pull: true
+    state: started
+    memory: 2G
+    network_mode: bridge
+    networks:
+    - name: jdownloader
+    purge_networks: yes # remove default 'bridge' network
+    ports:
+    - '5800:5800/tcp'
+    - '3129:3129/tcp'
+    restart_policy: unless-stopped
+    volumes:
+    - "{{ base_data_dir }}/config:/config:rw"
+    - "{{ base_data_dir }}/out:/output:rw"
+  register: docker_container_jdownloader

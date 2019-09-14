@@ -1,0 +1,21 @@
+---
+
+- name: Install OS Prerequisites
+  apt:
+    name:
+    - python-setuptools
+    - python-pip
+    update_cache: yes
+  become: yes
+
+- name: Install Python Docker Packge
+  pip:
+    name: docker
+    umask: '0022'
+    state: present
+    extra_args: --ignore-installed docker
+  become: yes
+
+- name: Gross fix for docker lib dependencies
+  command: cp -r /usr/local/lib/python2.7/dist-packages/backports/ssl_match_hostname /usr/lib/python2.7/dist-packages/backports/ssl_match_hostname
+  become: yes

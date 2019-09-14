@@ -1,0 +1,31 @@
+---
+
+- name: Install OS Prerequisites
+  apt:
+    name:
+    - python-setuptools
+    - python3-pip
+    update_cache: yes
+  become: yes
+
+- name: Install myjdapi Packge
+  pip:
+    name: myjdapi
+    umask: '0022'
+    state: present
+    executable: pip3
+  become: yes
+
+- name: Execute script to get number of unfinished downloads
+  script: "get_downloads.py '{{ my_jd_email }}' '{{ my_jd_password }}' '{{ jd_device_name }}'"
+  args:
+    executable: python3
+  register: active_dls
+  ignore_errors: yes
+
+- name: Kill JDownloader container when there are no downloads left
+  become: yes
+  docker_container:
+    state: stopped
+    name: "{{ container_name }}"
+  when: active_dls.stdout | int == 0

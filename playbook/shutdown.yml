@@ -1,0 +1,6 @@
+---
+
+# install JDownloader
+- hosts: all
+  roles:
+  - role: jd_shutdown

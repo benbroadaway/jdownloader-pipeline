@@ -1,0 +1,33 @@
+configuration:
+  dependencies:
+  - mvn://com.walmartlabs.concord.plugins.basic:ansible-tasks:1.32.0
+
+flows:
+  default:
+  - call: runAnsible
+    in:
+      playbook: playbook/main.yml
+
+  shutdownWhenDone:
+  - call: runAnsible
+    in:
+      playbook: playbook/shutdown.yml
+
+  runAnsible:
+  - task: ansible
+    in:
+      debug: false
+      playbook: ${playbook}
+      auth:
+        privatekey:
+          secret:
+            org: Default
+            name: jdownloader-secret
+      inventoryFile: inventories/homelab.yml
+      vaultPassword: ${crypto.exportAsString('Default', 'jdownloader-vault-pass', null)}
+
+triggers:
+- cron:  # backup at 4am
+    spec: "*/30 * * * *"
+    timezone: "America/Chicago"
+    entryPoint: shutdownWhenDone

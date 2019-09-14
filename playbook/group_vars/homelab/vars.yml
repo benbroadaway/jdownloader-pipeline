@@ -1,0 +1,22 @@
+---
+# ansible vars
+jdownloader_uid: "{{ ansible_user_uid }}"
+jdownloader_gid: "{{ ansible_user_gid }}"
+
+install_version: "v1.5.2"
+container_name: "jdownloader-test"
+
+
+# Vault vars
+# # ansible vars
+# ansible_user:
+# ansible_become_user:
+# ansible_become_password:
+# 
+# paths
+# base_data_dir:
+#
+# # MyJDownloader
+# my_jd_email:
+# my_jd_password:
+# jd_device_name:
