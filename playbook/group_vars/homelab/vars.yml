@@ -5,7 +5,7 @@ jdownloader_gid: "{{ ansible_user_gid }}"
 
 # docker vars
 install_version: "v1.5.2"
-container_name: "jdownloader-test"
+container_name: "jdownloader"
 
 
 # Vault vars
