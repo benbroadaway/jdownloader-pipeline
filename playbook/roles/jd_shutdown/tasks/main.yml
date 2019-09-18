@@ -1,13 +1,5 @@
 ---
 
-- name: Install OS Prerequisites
-  apt:
-    name:
-    - python-setuptools
-    - python3-pip
-    update_cache: yes
-  become: yes
-
 - name: Get container info
   shell: |
     if [  "$(docker ps | grep {{ container_name }})" ]; then
@@ -19,6 +11,14 @@
 
 - meta: end_play
   when: result.stdout == "0"
+
+- name: Install OS Prerequisites
+  apt:
+    name:
+    - python-setuptools
+    - python3-pip
+    update_cache: yes
+  become: yes
 
 - name: Install myjdapi Packge
   pip:
