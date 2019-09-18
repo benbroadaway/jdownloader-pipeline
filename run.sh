@@ -17,5 +17,5 @@ cd ${tmpDir} && zip -r payload.zip ./* 2>&1>/dev/null && cd ..
 
 curl -n \
   -F archive=@target/payload.zip \
-  -F entryPoint=default \
+  -F entryPoint="${ENTRY_POINT:-default}" \
   ${SERVER_URL}/api/v1/process

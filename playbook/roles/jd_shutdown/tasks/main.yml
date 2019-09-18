@@ -8,6 +8,18 @@
     update_cache: yes
   become: yes
 
+- name: Get container info
+  shell: |
+    if [  "$(docker ps | grep {{ container_name }})" ]; then
+        echo 1
+    else
+        echo 0
+    fi
+  register: result
+
+- meta: end_play
+  when: result.stdout == "0"
+
 - name: Install myjdapi Packge
   pip:
     name: myjdapi
