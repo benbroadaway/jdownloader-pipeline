@@ -27,7 +27,7 @@ flows:
       vaultPassword: ${crypto.exportAsString('Default', 'jdownloader-vault-pass', null)}
 
 triggers:
-- cron:  # backup at 4am
-    spec: "*/30 * * * *"
+- cron:  # every 2 hours
+    spec: "04 */2 * * *"
     timezone: "America/Chicago"
     entryPoint: shutdownWhenDone
